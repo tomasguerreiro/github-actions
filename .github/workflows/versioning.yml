@@ -1,0 +1,25 @@
+name: Versioning
+
+on:
+  push:
+
+jobs:
+  versioning:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: PATCH
+        if: "startsWith(github.github.ref, 'refs/heads/hotifix/')"
+        run: echo "PATCH"
+
+      - name: MINOR
+        if: "startsWith(github.github.ref, 'refs/heads/release/')"
+        run: echo "MINOR"
