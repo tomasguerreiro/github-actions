@@ -17,7 +17,7 @@ jobs:
           node-version: 12
 
       - name: Echo
-        if: "startsWith(github.ref, 'refs/heads/main/')"
+        if: "startsWith(github.ref, 'refs/heads/main')"
         run: echo "${{ github.ref }}"
 
       - name: PATCH
