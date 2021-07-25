@@ -17,6 +17,9 @@ jobs:
           node-version: 12
 
       - name: PATCH
+        run: echo "PATCH"
+
+      - name: PATCH
         if: "startsWith(github.github.ref, 'refs/heads/hotifix/')"
         run: echo "PATCH"
 
