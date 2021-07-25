@@ -17,12 +17,12 @@ jobs:
           node-version: 12
 
       - name: Echo
-        run: echo "${{ github.github.ref }}"
+        run: echo "${{ github.ref }}"
 
       - name: PATCH
-        if: "startsWith(github.github.ref, 'refs/heads/hotifix/')"
+        if: "startsWith(github.ref, 'refs/heads/hotifix/')"
         run: echo "PATCH"
 
       - name: MINOR
-        if: "startsWith(github.github.ref, 'refs/heads/release/')"
+        if: "startsWith(github.ref, 'refs/heads/release/')"
         run: echo "MINOR"
