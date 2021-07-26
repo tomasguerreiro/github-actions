@@ -2,11 +2,13 @@ name: Versioning
 
 on:
   push:
+    branches:
+      - main
 
 jobs:
   versioning:
     runs-on: ubuntu-latest
-
+    if: "startsWith(github.ref, 'refs/heads/main')"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
