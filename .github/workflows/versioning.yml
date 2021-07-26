@@ -16,9 +16,11 @@ jobs:
         with:
           node-version: 12
 
-      - name: Echo
-        if: "startsWith(github.ref, 'refs/heads/main')"
-        run: echo "${{ github.ref }}"
+      - name: Teste
+        run: echo ${{github.ref}}
+
+      - name: Teste
+        run: echo ${{github.event}}
 
       - name: PATCH
         if: "startsWith(github.ref, 'refs/heads/hotfix/')"
