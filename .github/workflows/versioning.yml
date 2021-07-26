@@ -19,10 +19,14 @@ jobs:
         with:
           node-version: 12
 
+      - name: Teste
+        if: "startsWith(github.head_ref, 'refs/heads/hotfix/')"
+        run: echo ${{github.head_ref}}
+
       - name: PATCH
         if: "startsWith(github.head_ref, 'refs/heads/hotfix/')"
         run: echo "PATCH"
 
       - name: MINOR
-        if: "startsWith(github.ref, 'refs/heads/release/')"
+        if: "startsWith(github.head_ref, 'refs/heads/release/')"
         run: echo "MINOR"
