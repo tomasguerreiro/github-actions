@@ -20,7 +20,6 @@ jobs:
           node-version: 12
 
       - name: Teste
-        if: "startsWith(github.head_ref, 'refs/heads/hotfix/')"
         run: echo ${{github.head_ref}}
 
       - name: PATCH
