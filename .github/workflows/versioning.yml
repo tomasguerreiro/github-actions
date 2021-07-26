@@ -1,3 +1,11 @@
+name: Versioning
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
 jobs:
   versioning:
     runs-on: ubuntu-latest
