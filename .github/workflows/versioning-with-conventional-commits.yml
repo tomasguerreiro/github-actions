@@ -31,7 +31,7 @@ jobs:
         run: yarn lerna bootstrap
 
       - name: Set Git config
-        uses: tomasguerreiro/github-actions/.github/workflows/set-git-config-github-actions.yml@main
+        uses: tomasguerreiro/github-actions/.github/actions/set-git-config-github-actions.yml@main
 
       - name: "Versioning Project with Conventional Commits"
         run: |
