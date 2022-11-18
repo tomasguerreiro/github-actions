@@ -1,5 +1,4 @@
-name: Versioning with conventional commits
-
+name: Versioning with branch name
 on:
   pull_request:
     types: [closed]
