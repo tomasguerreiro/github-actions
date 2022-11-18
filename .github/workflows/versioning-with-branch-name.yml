@@ -30,8 +30,10 @@ jobs:
       - name: Run lerna bootstrap
         run: yarn lerna bootstrap
 
-      - name: Set Git config
-        uses: tomasguerreiro/github-actions/.github/workflows/auto-merge-main-to-develop.yml@main
+      - name: Set Git Config
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
       
       - name: "Versioning Project with branch name (PATH)"
         if: "startsWith(github.head_ref, 'bug/')"
