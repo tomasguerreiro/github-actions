@@ -1,10 +1,7 @@
 name: Versioning with branch name
+      
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - develop
-      - main
+  workflow_call:
 
 jobs:
   versioning:
