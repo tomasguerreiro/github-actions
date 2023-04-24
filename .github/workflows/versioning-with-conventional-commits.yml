@@ -16,7 +16,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v1
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Target Branch
         run:  echo running on branch ${GITHUB_REF_NAME}
