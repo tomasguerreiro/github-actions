@@ -3,7 +3,7 @@ name: Versioning with Conventional Commits
 on:
   workflow_call:
     secrets:
-      token:
+      ALLOW_COMMITS:
         required: true
 
 jobs:
