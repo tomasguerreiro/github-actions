@@ -2,6 +2,9 @@ name: Versioning with Conventional Commits
 
 on:
   workflow_call:
+    secrets:
+      token:
+        required: true
 
 jobs:
   versioning:
@@ -10,6 +13,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ALLOW_COMMITS }}
 
       - name: Set up node
         uses: actions/setup-node@v1
