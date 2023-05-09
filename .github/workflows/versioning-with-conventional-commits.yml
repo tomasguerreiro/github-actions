@@ -8,6 +8,8 @@ on:
 
 jobs:
   versioning:
+    if: github.event.commits[0].author.name != 'Github Actions'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -22,14 +24,14 @@ jobs:
           node-version: 16
 
       - name: Target Branch
-        run:  echo running on branch ${GITHUB_REF_NAME}
-      
+        run: echo running on branch ${GITHUB_REF_NAME}
+
       - name: Source Name
-        run:  echo running on branch ${GITHUB_HEAD_REF}
+        run: echo running on branch ${GITHUB_HEAD_REF}
 
       - name: Install dependencies
         run: yarn
-  
+
       - name: Run lerna bootstrap
         run: yarn lerna bootstrap
 

@@ -5,6 +5,8 @@ on:
 
 jobs:
   quality:
+    if: github.event.commits[0].author.name != 'Github Actions'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -21,15 +23,15 @@ jobs:
 
       - name: Run lerna bootstrap
         run: yarn lerna bootstrap
-        
+
       - name: Check build
         run: yarn build
-        
+
       - name: Check Lint
         run: yarn lint
 
       - name: Check Types
         run: yarn tsc:check
-        
+
       - name: Check Test
         run: yarn test
