@@ -6,6 +6,8 @@ on:
       ALLOW_COMMITS:
         required: true
 
+# permissions: write-all
+
 jobs:
   versioning:
     if: github.event.commits[0].author.name != 'Github Actions'
@@ -16,7 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.ALLOW_COMMITS }}
+          token: ${{secrets.ALLOW_COMMITS}}
 
       - name: Set up node
         uses: actions/setup-node@v1
@@ -24,10 +26,10 @@ jobs:
           node-version: 16
 
       - name: Target Branch
-        run: echo running on branch ${GITHUB_REF_NAME}
+        run: echo running on branch ${{github.ref_name}}
 
       - name: Source Name
-        run: echo running on branch ${GITHUB_HEAD_REF}
+        run: echo running on branch ${{github.head_ref}}
 
       - name: Install dependencies
         run: yarn
@@ -42,7 +44,7 @@ jobs:
 
       - name: "Versioning Project with Conventional Commits"
         run: |
-          if [ ${{ github.base_ref }} = main ]; then
+          if [ ${{github.base_ref}} = main ]; then
             npx lerna version --conventional-commits --conventional-graduate --yes
           else
             npx lerna version --conventional-commits --conventional-prerelease --preid alfa --yes
