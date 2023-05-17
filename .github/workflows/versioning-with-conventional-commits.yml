@@ -47,7 +47,7 @@ jobs:
       - name: "Versioning Project with Conventional Commits"
         run: |
           if [ ${{github.base_ref}} = main ]; then
-            npx lerna version --conventional-commits --conventional-graduate --yes
+            npx lerna version --force-publish --conventional-commits --conventional-graduate --create-release github  --yes
           else
-            npx lerna version --conventional-commits --conventional-prerelease --preid alfa --yes
+            npx lerna version --force-publish --conventional-commits --conventional-prerelease --preid alfa --yes
           fi
