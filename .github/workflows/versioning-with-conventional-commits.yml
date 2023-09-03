@@ -36,9 +36,6 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Run lerna bootstrap
-        run: yarn lerna bootstrap
-
       - name: Set Git Config
         run: |
           git config --local user.email "actions@github.com"
