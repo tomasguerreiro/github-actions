@@ -20,7 +20,7 @@ jobs:
         with:
           fetch-depth: 0
           # persist-credentials: false
-          token: ${{secrets.ALLOW_COMMITS}}
+          # token: ${{secrets.ALLOW_COMMITS}}
 
       - name: Set up node
         uses: actions/setup-node@v3
