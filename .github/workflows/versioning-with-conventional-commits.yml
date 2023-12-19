@@ -47,5 +47,5 @@ jobs:
           if [ ${{github.base_ref}} = main ]; then
             yarn lerna version --force-publish --conventional-commits --conventional-graduate --create-release github  --yes
           else
-            yarn lerna version --force-publish --conventional-commits --conventional-prerelease --preid alfa --yes
+            yarn lerna version --force-publish --conventional-commits --conventional-prerelease --preid alpha --yes
           fi
