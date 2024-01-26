@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "npm i"
+          cache: "npm"
 
       - name: Target Branch
         run: echo running on branch ${{github.ref_name}}
