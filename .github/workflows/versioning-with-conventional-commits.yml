@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "yarn"
+          cache: "npm i"
 
       - name: Target Branch
         run: echo running on branch ${{github.ref_name}}
@@ -35,7 +35,7 @@ jobs:
         run: echo running on branch ${{github.head_ref}}
 
       - name: Install dependencies
-        run: yarn
+        run: npm i
 
       - name: Set Git Config
         run: |
@@ -45,7 +45,7 @@ jobs:
       - name: "Versioning Project with Conventional Commits"
         run: |
           if [ ${{github.base_ref}} = main ]; then
-            yarn lerna version --force-publish --conventional-commits --conventional-graduate --create-release github  --yes
+            npm run lerna version --force-publish --conventional-commits --conventional-graduate --create-release github  --yes
           else
-            yarn lerna version --force-publish --conventional-commits --conventional-prerelease --preid alpha --yes
+            npm run lerna version --force-publish --conventional-commits --conventional-prerelease --preid alpha --yes
           fi
