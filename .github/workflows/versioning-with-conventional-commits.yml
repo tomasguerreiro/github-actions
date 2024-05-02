@@ -45,7 +45,7 @@ jobs:
 
       - name: "Versioning Project with Conventional Commits"
         run: |
-          if [ ${{github.ref}} = "refs/heads/main" ]; then
+          if [ "${{github.ref}}" = "refs/heads/main" ]; then
             yarn lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --create-release github  --yes
           else
             yarn lerna version --force-publish --force-git-tag --conventional-commits --conventional-prerelease --preid alpha --yes
