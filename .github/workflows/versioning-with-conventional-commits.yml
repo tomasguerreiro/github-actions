@@ -15,18 +15,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           # persist-credentials: false
           # token: ${{secrets.ALLOW_COMMITS}}
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Set up node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: "npm"
+          node-version: 20
+          cache: "yarn"
 
       - name: Target Branch
         run: echo running on branch ${{github.ref_name}}
