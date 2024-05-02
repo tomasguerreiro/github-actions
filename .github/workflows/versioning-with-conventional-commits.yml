@@ -19,8 +19,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{secrets.ALLOW_COMMITS}}
           # persist-credentials: false
-          # token: ${{secrets.ALLOW_COMMITS}}
+
       - name: Enable Corepack
         run: corepack enable
 
@@ -43,7 +44,6 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
-          git config --global url."https://${{ secrets.ALLOW_COMMITS }}@github.com/".insteadOf "https://github.com/"
 
       - name: "Versioning Project with Conventional Commits"
         run: |
@@ -51,4 +51,16 @@ jobs:
             yarn lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --create-release github  --yes
           else
             yarn lerna version --force-publish --force-git-tag --conventional-commits --conventional-prerelease --preid alpha --yes
+          fi
+
+      # Este bloco de código deve ser adicionado após o passo "Versioning Project with Conventional Commits".
+      # Ele verifica se a branch atual é a main e, se for, faz o checkout para a develop,
+      # faz um merge da main para a develop com a opção --strategy-option=ours e, em seguida,
+      # faz um push das alterações para a develop.
+      - name: Equalize main with develop
+        run: |
+          if [ "${{github.ref}}" = "refs/heads/main" ]; then
+            git checkout develop
+            git merge main --strategy-option=ours
+            git push origin develop
           fi
