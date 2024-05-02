@@ -6,7 +6,8 @@ on:
       ALLOW_COMMITS:
         required: true
 
-# permissions: write-all
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   versioning:
