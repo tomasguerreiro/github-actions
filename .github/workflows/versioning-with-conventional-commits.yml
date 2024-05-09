@@ -11,7 +11,7 @@ env:
 
 jobs:
   versioning:
-    if: github.event.commits[0].author.name != 'Github Actions'
+    #if: github.event.commits[0].author.name != 'Github Actions'
 
     runs-on: ubuntu-latest
 
