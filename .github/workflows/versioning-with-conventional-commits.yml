@@ -50,7 +50,7 @@ jobs:
           if [ "${{github.ref}}" = "refs/heads/main" ]; then
             yarn lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --create-release github  --yes
           else
-            yarn lerna version --force-publish --force-git-tag --no-changelog --conventional-commits --conventional-prerelease --preid alpha --yes
+            yarn lerna version --force-publish --no-git-tag-version --no-changelog --conventional-commits --conventional-prerelease --preid alpha --yes
           fi
 
       # Este bloco de código deve ser adicionado após o passo "Versioning Project with Conventional Commits".
