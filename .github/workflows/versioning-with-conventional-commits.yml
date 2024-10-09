@@ -22,14 +22,11 @@ jobs:
           token: ${{secrets.ALLOW_COMMITS}}
           # persist-credentials: false
 
-      - name: Enable Corepack
-        run: corepack enable
-
       - name: Set up node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "yarn"
+          cache: "npm"
 
       - name: Target Branch
         run: echo running on branch ${{github.ref_name}}
@@ -38,7 +35,7 @@ jobs:
         run: echo running on branch ${{github.head_ref}}
 
       - name: Install dependencies
-        run: yarn
+        run: npm i
 
       - name: Set Git Config
         run: |
@@ -48,9 +45,9 @@ jobs:
       - name: "Versioning Project with Conventional Commits"
         run: |
           if [ "${{github.ref}}" = "refs/heads/main" ]; then
-            yarn lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --create-release github  --yes
+            npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --create-release github  --yes
           else
-            yarn lerna version --force-publish --no-git-tag-version --no-changelog --conventional-commits --conventional-prerelease --preid alpha --yes
+            npx lerna version --force-publish --no-git-tag-version --no-changelog --conventional-commits --conventional-prerelease --preid alpha --yes
           fi
 
       # Este bloco de código deve ser adicionado após o passo "Versioning Project with Conventional Commits".
