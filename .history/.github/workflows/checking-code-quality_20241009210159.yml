@@ -1,0 +1,38 @@
+name: Checking code quality
+
+on:
+  workflow_call:
+
+jobs:
+  quality:
+    #if: github.event.commits[0].author.name != 'Github Actions'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # persist-credentials: false
+          # token: ${{secrets.ALLOW_COMMITS}}
+
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Check build
+        run: npm run build
+
+      - name: Check Lint
+        run: npm run lint
+
+      - name: Check Types
+        run: npm run tsc:check
+
+      - name: Check Test
+        run: npm run test

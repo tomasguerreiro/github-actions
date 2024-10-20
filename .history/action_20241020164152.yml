@@ -1,0 +1,5 @@
+name: "Node.js CI"
+description: "Executa build, lint, type checking e testes para projetos Node.js"
+runs:
+  using: "node20"
+  main: "index.js"

@@ -1,0 +1,40 @@
+name: Checking code quality
+
+on:
+  workflow_call:
+
+jobs:
+  quality:
+    #if: github.event.commits[0].author.name != 'Github Actions'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # persist-credentials: false
+          # token: ${{secrets.ALLOW_COMMITS}}
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Check build
+        run: yarn build
+
+      - name: Check Lint
+        run: yarn lint
+
+      - name: Check Types
+        run: yarn tsc:check
+
+      - name: Check Test
+        run: yarn test
