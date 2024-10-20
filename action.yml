@@ -1,14 +1,15 @@
 name: "Node.js Test Runner"
 description: "Runs tests for a Node.js application."
-author: "Tomas Guerreiro Araujo"
+author: "Tomas"
 inputs:
   node-version:
     description: "The version of Node.js to use"
     required: false
-    default: "20"
+    default: "18"
 runs:
-  using: "node20"
+  using: "node16" # A versão do Node.js usada para rodar esta action
   main: "dist/index.js"
+
 outputs:
   test-result:
     description: "The result of the test run"

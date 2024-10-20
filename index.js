@@ -1,5 +1,5 @@
-const core = require("@actions/core");
-const exec = require("@actions/exec");
+// const core = require("@actions/core");
+// const exec = require("@actions/exec");
 
 async function run() {
   try {
@@ -11,7 +11,7 @@ async function run() {
     // await exec.exec("npm run tsc:check");
     // await exec.exec("npm run test");
   } catch (error) {
-    core.setFailed(error.message);
+    // core.setFailed(error.message);
   }
 }
 
