@@ -5,9 +5,9 @@ inputs:
   node-version:
     description: "The version of Node.js to use"
     required: false
-    default: "18"
+    default: "20"
 runs:
-  using: "node16" # A versão do Node.js usada para rodar esta action
+  using: "node20" # A versão do Node.js usada para rodar esta action
   main: "dist/index.js"
 
 outputs:
