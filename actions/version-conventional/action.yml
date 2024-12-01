@@ -6,6 +6,10 @@ inputs:
     description: "The version of Node.js to use"
     required: false
     default: "20"
+  github-token:
+    description: "GitHub token for authentication"
+    required: true
+
 runs:
   using: "node20" # A versão do Node.js usada para rodar esta action
   main: "dist/index.js"
@@ -13,6 +17,7 @@ runs:
 outputs:
   test-result:
     description: "The result of the test run"
+
 branding:
   color: "blue"
   icon: "check-circle"
