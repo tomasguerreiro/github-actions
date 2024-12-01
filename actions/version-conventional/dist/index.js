@@ -25686,7 +25686,8 @@ async function run() {
         // Configura o token de acesso do GitHub
         const githubToken = process.env.GITHUB_TOKEN;
         if (!githubToken) {
-            throw new Error("GITHUB_TOKEN is not defined");
+            // throw new Error("GITHUB_TOKEN is not defined");
+            core.info("GITHUB_TOKEN is not defined");
         }
         else {
             core.info("GITHUB_TOKEN is defined");
@@ -25697,7 +25698,9 @@ async function run() {
         await exec.exec("git config --global user.name 'GitHub Actions'");
         await exec.exec("git config --global user.email 'actions@github.com'");
         // Configura o repositório remoto para usar o token de acesso
-        await exec.exec(`git remote set-url origin https://x-access-token:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`);
+        // await exec.exec(
+        //   `git remote set-url origin https://x-access-token:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`
+        // );
         if (process.env.GITHUB_REF === "refs/heads/develop") {
             core.info("Versioning all packages in alpha mode.");
             await exec.exec("npx lerna version prerelease --preid=alpha --conventional-commits --yes");
