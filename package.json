@@ -1,17 +1,27 @@
 {
-  "name": "github-actions",
-  "version": "1.0.0",
-  "description": "- Fix: 1 - Fix: 2 - Fix: 3 - Fix: 4",
-  "main": "dist/index.js",
+  "name": "actions",
+  "description": "",
+  "private": "true",
+  "author": "Tomás Guerreiro Araujo",
+  "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ncc build src/main.js -o dist"
+    "prebuild": "lerna exec -- npx tsc",
+    "build": "lerna exec -- ncc build dist/main.js -o dist"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "@actions/exec": "^1.1.1",
-    "@vercel/ncc": "^0.38.2"
-  }
+    "@actions/exec": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.7",
+    "@vercel/ncc": "^0.38.2",
+    "lerna": "^8.1.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "workspaces": [
+    "ci/*",
+    "cd/*"
+  ]
 }
