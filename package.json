@@ -5,23 +5,15 @@
   "author": "Tomás Guerreiro Araujo",
   "license": "ISC",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "lerna exec -- npx tsc",
-    "build": "lerna exec -- ncc build dist/main.js -o dist"
-  },
-  "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/exec": "^1.1.1"
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces"
   },
   "devDependencies": {
     "@types/node": "^22.7.7",
-    "@vercel/ncc": "^0.38.2",
     "lerna": "^8.1.8",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "ts-node": "^10.9.2"
   },
   "workspaces": [
-    "ci/*",
-    "cd/*"
+    "actions/*"
   ]
 }
