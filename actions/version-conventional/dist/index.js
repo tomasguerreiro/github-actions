@@ -25691,7 +25691,7 @@ async function run() {
         }
         else {
             core.info("GITHUB_TOKEN is defined");
-            // core.setSecret(githubToken);
+            core.setSecret(githubToken);
         }
         await exec.exec("npm ci");
         // Configura o usuário e o e-mail do Git
