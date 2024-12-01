@@ -25683,6 +25683,11 @@ const exec = __importStar(__nccwpck_require__(9192));
  */
 async function run() {
     try {
+        // Configura o token de acesso do GitHub
+        const githubToken = process.env.GITHUB_TOKEN;
+        if (!githubToken) {
+            throw new Error("GITHUB_TOKEN is not defined");
+        }
         await exec.exec("npm ci");
         // Configura o usuário e o e-mail do Git
         await exec.exec("git config --global user.name 'GitHub Actions'");
