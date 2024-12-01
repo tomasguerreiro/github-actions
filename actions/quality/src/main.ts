@@ -3,7 +3,8 @@ import * as exec from "@actions/exec";
 
 async function run(): Promise<void> {
   try {
-    await exec.exec("npm ci --include=optional");
+    await exec.exec("npm cache clean --force");
+    await exec.exec("npm i");
     await exec.exec("npm run build");
     await exec.exec("npm run lint");
     await exec.exec("npm run tsc:check");
