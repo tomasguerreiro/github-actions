@@ -25703,11 +25703,11 @@ async function run() {
         // );
         if (process.env.GITHUB_REF === "refs/heads/develop") {
             core.info("Versioning all packages in alpha mode.");
-            await exec.exec("npx lerna version prerelease --preid=alpha --conventional-commits --yes");
+            await exec.exec("npx lerna version prerelease --preid=alpha --conventional-commits --yes --no-push");
         }
         else if (process.env.GITHUB_REF === "refs/heads/main") {
             core.info("Versioning all packages.");
-            await exec.exec("npx lerna version --conventional-commits --yes");
+            await exec.exec("npx lerna version --conventional-commits --yes --no-push");
         }
         else {
             core.info("Skipping versioning.");
