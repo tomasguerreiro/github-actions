@@ -12,6 +12,9 @@ async function run(): Promise<void> {
     const githubToken = process.env.GITHUB_TOKEN;
     if (!githubToken) {
       throw new Error("GITHUB_TOKEN is not defined");
+    } else {
+      core.info("GITHUB_TOKEN is defined");
+      // core.setSecret(githubToken);
     }
 
     await exec.exec("npm ci");

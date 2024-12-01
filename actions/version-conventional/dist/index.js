@@ -25688,6 +25688,10 @@ async function run() {
         if (!githubToken) {
             throw new Error("GITHUB_TOKEN is not defined");
         }
+        else {
+            core.info("GITHUB_TOKEN is defined");
+            // core.setSecret(githubToken);
+        }
         await exec.exec("npm ci");
         // Configura o usuário e o e-mail do Git
         await exec.exec("git config --global user.name 'GitHub Actions'");
