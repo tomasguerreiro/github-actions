@@ -25678,7 +25678,7 @@ const core = __importStar(__nccwpck_require__(7184));
 const exec = __importStar(__nccwpck_require__(9192));
 async function run() {
     try {
-        await exec.exec("npm ci");
+        await exec.exec("npm i");
         await exec.exec("npm run build");
         await exec.exec("npm run lint");
         await exec.exec("npm run tsc:check");
