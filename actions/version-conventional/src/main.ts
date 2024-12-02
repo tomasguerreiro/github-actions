@@ -33,6 +33,15 @@ async function run(): Promise<void> {
     }
 
     core.info("Lerna versioning completed.");
+
+    // equaliza a main com a develop
+    if (process.env.GITHUB_REF === "refs/heads/main") {
+      core.info("Main branch synchronized with develop.");
+
+      await exec.exec("git checkout develop");
+      await exec.exec("git merge main --strategy-option=ours");
+      await exec.exec("git push origin develop");
+    }
   } catch (error) {
     if (error instanceof Error) {
       core.setFailed(error.message);
