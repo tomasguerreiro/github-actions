@@ -25676,18 +25676,12 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(7184));
 const exec = __importStar(__nccwpck_require__(9192));
-/**
- * faz o versionamento semântico usando o npm e o lerna para gerenciar os pacotes
- * se a branch for a develop, ele faz o versionamento de todos os pacotes e incrementa usando o conventional commits adicionando a suffix -alpha
- * se a branch for a main, ele faz o versionamento de todos os pacotes e incrementa usando o conventional commits
- */
 async function run() {
     try {
         // Configura o token de acesso do GitHub
         const githubToken = process.env.GITHUB_TOKEN;
         if (!githubToken) {
-            // throw new Error("GITHUB_TOKEN is not defined");
-            core.info("GITHUB_TOKEN is not defined");
+            throw new Error("GITHUB_TOKEN is not defined");
         }
         else {
             core.info("GITHUB_TOKEN is defined");
@@ -25697,17 +25691,13 @@ async function run() {
         // Configura o usuário e o e-mail do Git
         await exec.exec("git config --global user.name 'GitHub Actions'");
         await exec.exec("git config --global user.email 'actions@github.com'");
-        // Configura o repositório remoto para usar o token de acesso
-        // await exec.exec(
-        //   `git remote set-url origin https://x-access-token:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`
-        // );
         if (process.env.GITHUB_REF === "refs/heads/develop") {
             core.info("Versioning all packages in alpha mode.");
-            await exec.exec("npx lerna version prerelease --preid=alpha --conventional-commits --yes");
+            await exec.exec("npx lerna version --force-publish --force-git-tag --no-changelog --conventional-commits --conventional-prerelease --preid alpha --yes");
         }
         else if (process.env.GITHUB_REF === "refs/heads/main") {
             core.info("Versioning all packages.");
-            await exec.exec("npx lerna version --conventional-commits --yes");
+            await exec.exec("npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --create-release github  --yes");
         }
         else {
             core.info("Skipping versioning.");
