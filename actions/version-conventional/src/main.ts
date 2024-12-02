@@ -26,7 +26,7 @@ async function run(): Promise<void> {
     } else if (process.env.GITHUB_REF === "refs/heads/main") {
       core.info("Versioning all packages.");
       await exec.exec(
-        "npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --create-release --yes"
+        "npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --yes"
       );
     } else {
       core.info("Skipping versioning.");
