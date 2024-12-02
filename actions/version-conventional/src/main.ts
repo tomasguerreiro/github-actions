@@ -19,20 +19,19 @@ async function run(): Promise<void> {
     await exec.exec("git config --global user.email 'actions@github.com'");
 
     if (process.env.GITHUB_REF === "refs/heads/develop") {
-      core.info("Versioning all packages in alpha mode.");
       await exec.exec(
         "npx lerna version prerelease --no-changelog --force-publish --force-git-tag --preid=alpha --conventional-commits --yes --loglevel verbose"
       );
-      core.info("Versioning all packages in alpha mode.");
+      core.info("Versioning all packages with prerelease alpha.");
     } else if (process.env.GITHUB_REF === "refs/heads/main") {
-      core.info("Versioning all packages.");
       await exec.exec(
-        "npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --yes --loglevel verbose"
+        "npx lerna version --force-publish --force-git-tag --conventional-commits --yes --loglevel verbose"
       );
-      core.info("Versioning all packages.");
+      core.info("Versioning all package with graduated version.");
     } else {
       core.info("Skipping versioning.");
     }
+
     core.info("Lerna versioning completed.");
   } catch (error) {
     if (error instanceof Error) {
