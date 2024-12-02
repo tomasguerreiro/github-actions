@@ -20,9 +20,9 @@ async function run(): Promise<void> {
 
     if (process.env.GITHUB_REF === "refs/heads/develop") {
       core.info("Versioning all packages in alpha mode.");
-      // await exec.exec(
-      //   "npx lerna version --force-publish --force-git-tag --no-changelog --conventional-commits --conventional-prerelease --preid alpha --yes --loglevel verbose"
-      // );
+      await exec.exec(
+        "npx lerna version prerelease --no-changelog --force-publish --preid=alpha --conventional-commits --yes --loglevel verbose"
+      );
       core.info("Versioning all packages in alpha mode.");
     } else if (process.env.GITHUB_REF === "refs/heads/main") {
       core.info("Versioning all packages.");
