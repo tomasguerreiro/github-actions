@@ -27,6 +27,10 @@ async function run(): Promise<void> {
       await exec.exec(
         "npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --yes --loglevel verbose"
       );
+
+      // Gera o changelog
+      await exec.exec("npx lerna-changelog");
+
       core.info("Versioning all package with graduated version.");
     } else {
       core.info("Skipping versioning.");
