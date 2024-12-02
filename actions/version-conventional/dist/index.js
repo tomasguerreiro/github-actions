@@ -25693,7 +25693,7 @@ async function run() {
         await exec.exec("git config --global user.email 'actions@github.com'");
         if (process.env.GITHUB_REF === "refs/heads/develop") {
             core.info("Versioning all packages in alpha mode.");
-            await exec.exec("npx lerna version prerelease --preid=alpha --conventional-commits --yes");
+            await exec.exec("npx lerna version prerelease --no-changelog --preid=alpha --conventional-commits --yes");
         }
         else if (process.env.GITHUB_REF === "refs/heads/main") {
             core.info("Versioning all packages.");
