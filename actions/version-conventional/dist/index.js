@@ -25711,6 +25711,9 @@ async function run() {
             core.setFailed("An unknown error occurred.");
         }
     }
+    finally {
+        core.info("Action completed.");
+    }
 }
 run();
 

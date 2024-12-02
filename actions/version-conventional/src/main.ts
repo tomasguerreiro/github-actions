@@ -37,6 +37,8 @@ async function run(): Promise<void> {
     } else {
       core.setFailed("An unknown error occurred.");
     }
+  } finally {
+    core.info("Action completed.");
   }
 }
 
