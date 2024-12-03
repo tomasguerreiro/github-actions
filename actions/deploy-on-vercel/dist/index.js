@@ -25725,9 +25725,11 @@ async function run() {
                 await exec.exec(vercelCommand);
                 core.info("Deploying to Vercel preview...");
             }
+            else {
+                await exec.exec(vercelCommand);
+            }
         }
         else {
-            await exec.exec(vercelCommand);
             // throw new Error("GITHUB_REF is not defined");
             core.info("No tag found. Not deploying to Vercel.");
         }
