@@ -13,18 +13,18 @@ async function run(): Promise<void> {
     if (!vercelToken) {
       throw new Error("VERCEL_TOKEN is not defined");
     } else {
-      core.info("GITHUB_TOKEN is defined");
+      core.info("VERCEL_TOKEN is defined");
     }
 
-    const vercelProjectId = process.env.VERCEL_PROJECT_ID;
-    if (!vercelProjectId) {
-      throw new Error("VERCEL_PROJECT_ID is not defined");
-    }
+    // const vercelProjectId = process.env.VERCEL_PROJECT_ID;
+    // if (!vercelProjectId) {
+    //   throw new Error("VERCEL_PROJECT_ID is not defined");
+    // }
 
-    const vercelOrgId = process.env.VERCEL_ORG_ID;
-    if (!vercelOrgId) {
-      throw new Error("VERCEL_ORG_ID is not defined");
-    }
+    // const vercelOrgId = process.env.VERCEL_ORG_ID;
+    // if (!vercelOrgId) {
+    //   throw new Error("VERCEL_ORG_ID is not defined");
+    // }
 
     // Instala o CLI da Vercel globalmente
     await exec.exec("npm install -g vercel");
@@ -35,7 +35,7 @@ async function run(): Promise<void> {
     await exec.exec("git config --global user.name 'GitHub Actions'");
     await exec.exec("git config --global user.email 'actions@github.com'");
 
-    const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes`;
+    const vercelCommand = `vercel --token ${vercelToken} --yes`;
 
     // Verifica se o projeto existe e cria se não existir
     // try {
@@ -49,6 +49,8 @@ async function run(): Promise<void> {
     // }
 
     const paths: string[] = JSON.parse(process.env.VERCEL_PATHS || "[]");
+
+    core.info(JSON.stringify(paths));
 
     const deployOnVercel = async (path: string) => {
       const tag = process.env.GITHUB_REF;
