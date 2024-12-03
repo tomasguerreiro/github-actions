@@ -25704,7 +25704,7 @@ async function run() {
         // Configura o usuário e o e-mail do Git
         await exec.exec("git config --global user.name 'GitHub Actions'");
         await exec.exec("git config --global user.email 'actions@github.com'");
-        const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --confirm`;
+        const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes`;
         // Verifica se o projeto existe e cria se não existir
         try {
             await exec.exec(`${vercelCommand}`);
@@ -25712,7 +25712,7 @@ async function run() {
         }
         catch (error) {
             core.info("Project does not exist. Creating project...");
-            await exec.exec(`${vercelCommand} --name ${vercelProjectId}`);
+            await exec.exec(`vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --name ${vercelProjectId}`);
         }
         const tag = process.env.GITHUB_REF;
         if (tag) {
