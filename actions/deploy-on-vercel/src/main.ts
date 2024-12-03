@@ -44,7 +44,7 @@ async function run(): Promise<void> {
     } catch (error) {
       core.info("Project does not exist. Creating project...");
       await exec.exec(
-        `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --name ${vercelProjectId}`
+        `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --project-id ${vercelProjectId}`
       );
     }
 

@@ -25712,7 +25712,7 @@ async function run() {
         }
         catch (error) {
             core.info("Project does not exist. Creating project...");
-            await exec.exec(`vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --name ${vercelProjectId}`);
+            await exec.exec(`vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --project-id ${vercelProjectId}`);
         }
         const tag = process.env.GITHUB_REF;
         if (tag) {
