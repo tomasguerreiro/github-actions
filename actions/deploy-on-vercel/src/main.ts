@@ -37,6 +37,15 @@ async function run(): Promise<void> {
 
     const vercelCommand = `vercel --token ${vercelToken} --project ${vercelProjectId} --org ${vercelOrgId}`;
 
+    // Verifica se o projeto existe e cria se não existir
+    try {
+      await exec.exec(`${vercelCommand} --confirm`);
+      core.info("Project exists or created successfully.");
+    } catch (error) {
+      core.info("Project does not exist. Creating project...");
+      await exec.exec(`${vercelCommand} --confirm --name ${vercelProjectId}`);
+    }
+
     const tag = process.env.GITHUB_REF;
 
     if (tag) {
