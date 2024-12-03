@@ -35,7 +35,7 @@ async function run(): Promise<void> {
     await exec.exec("git config --global user.name 'GitHub Actions'");
     await exec.exec("git config --global user.email 'actions@github.com'");
 
-    const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --name ${vercelProjectId} --yes`;
+    const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes`;
 
     // Verifica se o projeto existe e cria se não existir
     // try {
@@ -48,22 +48,28 @@ async function run(): Promise<void> {
     //   );
     // }
 
-    const tag = process.env.GITHUB_REF;
+    const paths: string[] = JSON.parse(process.env.VERCEL_PATHS || "[]");
 
-    if (tag) {
-      if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+$/)) {
-        await exec.exec(`${vercelCommand} --prod`);
-        core.info("Deploying to Vercel production...");
-      } else if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+-alpha\.\d+$/)) {
-        await exec.exec(vercelCommand);
-        core.info("Deploying to Vercel preview...");
+    const deployOnVercel = async (path: string) => {
+      const tag = process.env.GITHUB_REF;
+
+      if (tag) {
+        if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+$/)) {
+          await exec.exec(`${vercelCommand} --prod --cwd ${path}`);
+          core.info("Deploying to Vercel production...");
+        } else if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+-alpha\.\d+$/)) {
+          await exec.exec(`${vercelCommand} --cwd ${path}`);
+          core.info("Deploying to Vercel preview...");
+        } else {
+          await exec.exec(vercelCommand);
+        }
       } else {
-        await exec.exec(vercelCommand);
+        // throw new Error("GITHUB_REF is not defined");
+        core.info("No tag found. Not deploying to Vercel.");
       }
-    } else {
-      // throw new Error("GITHUB_REF is not defined");
-      core.info("No tag found. Not deploying to Vercel.");
-    }
+    };
+
+    await Promise.all(paths.map(deployOnVercel));
 
     core.info("Vercel deploy completed.");
   } catch (error) {
