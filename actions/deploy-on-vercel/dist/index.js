@@ -25690,54 +25690,39 @@ async function run() {
         else {
             core.info("VERCEL_TOKEN is defined");
         }
-        // const vercelProjectId = process.env.VERCEL_PROJECT_ID;
-        // if (!vercelProjectId) {
-        //   throw new Error("VERCEL_PROJECT_ID is not defined");
-        // }
-        // const vercelOrgId = process.env.VERCEL_ORG_ID;
-        // if (!vercelOrgId) {
-        //   throw new Error("VERCEL_ORG_ID is not defined");
-        // }
+        if (!process.env.VERCEL_PROJECT_ID) {
+            throw new Error("VERCEL_PROJECT_ID is not defined");
+        }
+        if (!process.env.VERCEL_ORG_ID) {
+            throw new Error("VERCEL_ORG_ID is not defined");
+        }
+        const vercelPath = process.env.VERCEL_PATH || ".";
+        core.info(vercelPath);
         // Instala o CLI da Vercel globalmente
         await exec.exec("npm install -g vercel");
         await exec.exec("npm ci");
         // Configura o usuário e o e-mail do Git
         await exec.exec("git config --global user.name 'GitHub Actions'");
         await exec.exec("git config --global user.email 'actions@github.com'");
-        const vercelCommand = `vercel --token ${vercelToken} --yes`;
-        // Verifica se o projeto existe e cria se não existir
-        // try {
-        //   await exec.exec(`${vercelCommand}`);
-        //   core.info("Project exists or created successfully.");
-        // } catch (error) {
-        //   core.info("Project does not exist. Creating project...");
-        //   await exec.exec(
-        //     `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --project-id ${vercelProjectId}`
-        //   );
-        // }
-        const paths = JSON.parse(process.env.VERCEL_PATHS || "[]");
-        core.info(JSON.stringify(paths));
-        const deployOnVercel = async (path) => {
-            const tag = process.env.GITHUB_REF;
-            if (tag) {
-                if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+$/)) {
-                    await exec.exec(`${vercelCommand} --prod --cwd ${path}`);
-                    core.info("Deploying to Vercel production...");
-                }
-                else if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+-alpha\.\d+$/)) {
-                    await exec.exec(`${vercelCommand} --cwd ${path}`);
-                    core.info("Deploying to Vercel preview...");
-                }
-                else {
-                    await exec.exec(vercelCommand);
-                }
+        const vercelCommand = `vercel --token ${vercelToken} --yes --cwd ${vercelPath}`;
+        const tag = process.env.GITHUB_REF;
+        if (tag) {
+            if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+$/)) {
+                await exec.exec(`${vercelCommand} --prod`);
+                core.info("Deploying to Vercel production...");
+            }
+            else if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+-alpha\.\d+$/)) {
+                await exec.exec(`${vercelCommand} --cwd`);
+                core.info("Deploying to Vercel preview...");
             }
             else {
-                // throw new Error("GITHUB_REF is not defined");
-                core.info("No tag found. Not deploying to Vercel.");
+                await exec.exec(vercelCommand);
             }
-        };
-        await Promise.all(paths.map(deployOnVercel));
+        }
+        else {
+            // throw new Error("GITHUB_REF is not defined");
+            core.info("No tag found. Not deploying to Vercel.");
+        }
         core.info("Vercel deploy completed.");
     }
     catch (error) {
