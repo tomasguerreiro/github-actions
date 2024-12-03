@@ -25704,16 +25704,17 @@ async function run() {
         // Configura o usuário e o e-mail do Git
         await exec.exec("git config --global user.name 'GitHub Actions'");
         await exec.exec("git config --global user.email 'actions@github.com'");
-        const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes`;
+        const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --name ${vercelProjectId} --yes`;
         // Verifica se o projeto existe e cria se não existir
-        try {
-            await exec.exec(`${vercelCommand}`);
-            core.info("Project exists or created successfully.");
-        }
-        catch (error) {
-            core.info("Project does not exist. Creating project...");
-            await exec.exec(`vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --project-id ${vercelProjectId}`);
-        }
+        // try {
+        //   await exec.exec(`${vercelCommand}`);
+        //   core.info("Project exists or created successfully.");
+        // } catch (error) {
+        //   core.info("Project does not exist. Creating project...");
+        //   await exec.exec(
+        //     `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --project-id ${vercelProjectId}`
+        //   );
+        // }
         const tag = process.env.GITHUB_REF;
         if (tag) {
             if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+$/)) {
@@ -25726,7 +25727,8 @@ async function run() {
             }
         }
         else {
-            throw new Error("GITHUB_REF is not defined");
+            await exec.exec(vercelCommand);
+            // throw new Error("GITHUB_REF is not defined");
             core.info("No tag found. Not deploying to Vercel.");
         }
         core.info("Vercel deploy completed.");
