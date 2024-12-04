@@ -8,10 +8,12 @@ async function run(): Promise<void> {
     const vercelProjectId = process.env.VERCEL_PROJECT_ID;
     const vercelOrgId = process.env.VERCEL_ORG_ID;
     const vercelPath = process.env.VERCEL_PATH || ".";
+    const githubRef = process.env.GITHUB_REF;
 
     if (!vercelToken) throw new Error("VERCEL_TOKEN is not defined");
     if (!vercelProjectId) throw new Error("VERCEL_PROJECT_ID is not defined");
     if (!vercelOrgId) throw new Error("VERCEL_ORG_ID is not defined");
+    if (!githubRef) throw new Error("GITHUB_REF is not defined");
 
     // Instala o CLI do Vercel
     core.info("Installing Vercel CLI...");
@@ -43,23 +45,23 @@ async function run(): Promise<void> {
     // Comando base do Vercel
     const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --cwd ${vercelPath}`;
 
-    const tag = process.env.GITHUB_REF;
-
-    if (tag) {
-      if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+$/)) {
+    // Identificação e deploy com base na tag
+    core.info("Processing GitHub reference...");
+    if (githubRef.startsWith("refs/tags/")) {
+      const tag = githubRef.replace("refs/tags/", "");
+      if (tag.match(/^v\d+\.\d+\.\d+$/)) {
         await exec.exec(`${vercelCommand} --prod`);
         core.info("Deploying to Vercel production...");
-      } else if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+-alpha\.\d+$/)) {
+      } else if (tag.match(/^v\d+\.\d+\.\d+-alpha\.\d+$/)) {
         await exec.exec(`${vercelCommand}`);
         core.info("Deploying to Vercel preview...");
       } else {
-        await exec.exec(vercelCommand);
         core.warning(
           "Tag does not match production or alpha patterns. Skipping deploy."
         );
       }
     } else {
-      throw new Error("GITHUB_REF is not defined");
+      throw new Error("GITHUB_REF is not a tag reference");
     }
 
     core.info("Vercel deploy completed.");
