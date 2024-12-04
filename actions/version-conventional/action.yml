@@ -6,9 +6,9 @@ inputs:
     description: "The version of Node.js to use"
     required: false
     default: "20"
-  github-token:
-    description: "GitHub token for authentication"
-    required: true
+  # github-token:
+  #   description: "GitHub token for authentication"
+  #   required: true
 
 runs:
   using: "node20" # A versão do Node.js usada para rodar esta action

@@ -25679,7 +25679,7 @@ const exec = __importStar(__nccwpck_require__(9192));
 async function run() {
     try {
         // Configura o token de acesso do GitHub
-        const githubToken = process.env.GITHUB_TOKEN;
+        const githubToken = process.env.GITHUB_PAT || core.getInput("github-token");
         if (!githubToken) {
             throw new Error("GITHUB_TOKEN is not defined");
         }
