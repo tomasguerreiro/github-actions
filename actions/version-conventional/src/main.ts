@@ -4,7 +4,7 @@ import * as exec from "@actions/exec";
 async function run(): Promise<void> {
   try {
     // Configura o token de acesso do GitHub
-    const githubToken = process.env.GITHUB_PAT || core.getInput("github-token");
+    const githubToken = process.env.GITHUB_PAT;
     if (!githubToken) {
       throw new Error("GITHUB_TOKEN is not defined");
     } else {
