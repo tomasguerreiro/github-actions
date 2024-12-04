@@ -1,10 +1,6 @@
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
 
-/**
- * Função principal para execução da action.
- * Faz o deploy de uma aplicação no Vercel.
- */
 async function run(): Promise<void> {
   try {
     // Validações iniciais
@@ -16,9 +12,6 @@ async function run(): Promise<void> {
     if (!vercelToken) throw new Error("VERCEL_TOKEN is not defined");
     if (!vercelProjectId) throw new Error("VERCEL_PROJECT_ID is not defined");
     if (!vercelOrgId) throw new Error("VERCEL_ORG_ID is not defined");
-
-    core.setSecret(vercelToken);
-    core.info("Vercel token and project details are defined.");
 
     // Instala o CLI do Vercel
     core.info("Installing Vercel CLI...");
@@ -57,7 +50,7 @@ async function run(): Promise<void> {
         await exec.exec(`${vercelCommand} --prod`);
         core.info("Deploying to Vercel production...");
       } else if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+-alpha\.\d+$/)) {
-        await exec.exec(`${vercelCommand} --cwd`);
+        await exec.exec(`${vercelCommand}`);
         core.info("Deploying to Vercel preview...");
       } else {
         await exec.exec(vercelCommand);
@@ -66,8 +59,7 @@ async function run(): Promise<void> {
         );
       }
     } else {
-      // throw new Error("GITHUB_REF is not defined");
-      core.info("No tag found. Not deploying to Vercel.");
+      throw new Error("GITHUB_REF is not defined");
     }
 
     core.info("Vercel deploy completed.");

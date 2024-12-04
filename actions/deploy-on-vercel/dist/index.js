@@ -25676,10 +25676,6 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(7184));
 const exec = __importStar(__nccwpck_require__(9192));
-/**
- * Função principal para execução da action.
- * Faz o deploy de uma aplicação no Vercel.
- */
 async function run() {
     try {
         // Validações iniciais
@@ -25693,8 +25689,6 @@ async function run() {
             throw new Error("VERCEL_PROJECT_ID is not defined");
         if (!vercelOrgId)
             throw new Error("VERCEL_ORG_ID is not defined");
-        core.setSecret(vercelToken);
-        core.info("Vercel token and project details are defined.");
         // Instala o CLI do Vercel
         core.info("Installing Vercel CLI...");
         await exec.exec("npm install -g vercel");
@@ -25724,7 +25718,7 @@ async function run() {
                 core.info("Deploying to Vercel production...");
             }
             else if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+-alpha\.\d+$/)) {
-                await exec.exec(`${vercelCommand} --cwd`);
+                await exec.exec(`${vercelCommand}`);
                 core.info("Deploying to Vercel preview...");
             }
             else {
@@ -25733,8 +25727,7 @@ async function run() {
             }
         }
         else {
-            // throw new Error("GITHUB_REF is not defined");
-            core.info("No tag found. Not deploying to Vercel.");
+            throw new Error("GITHUB_REF is not defined");
         }
         core.info("Vercel deploy completed.");
     }
