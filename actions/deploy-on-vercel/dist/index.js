@@ -25682,32 +25682,39 @@ const exec = __importStar(__nccwpck_require__(9192));
  */
 async function run() {
     try {
-        // Configura o token de acesso do GitHub
+        // Validações iniciais
         const vercelToken = process.env.VERCEL_TOKEN;
-        if (!vercelToken) {
-            throw new Error("VERCEL_TOKEN is not defined");
-        }
-        else {
-            core.info("VERCEL_TOKEN is defined");
-        }
         const vercelProjectId = process.env.VERCEL_PROJECT_ID;
-        if (!process.env.VERCEL_PROJECT_ID) {
-            throw new Error("VERCEL_PROJECT_ID is not defined");
-        }
-        if (!process.env.VERCEL_ORG_ID) {
-            throw new Error("VERCEL_ORG_ID is not defined");
-        }
+        const vercelOrgId = process.env.VERCEL_ORG_ID;
         const vercelPath = process.env.VERCEL_PATH || ".";
-        core.info(vercelPath);
-        // Instala o CLI da Vercel globalmente
+        if (!vercelToken)
+            throw new Error("VERCEL_TOKEN is not defined");
+        if (!vercelProjectId)
+            throw new Error("VERCEL_PROJECT_ID is not defined");
+        if (!vercelOrgId)
+            throw new Error("VERCEL_ORG_ID is not defined");
+        core.setSecret(vercelToken);
+        core.info("Vercel token and project details are defined.");
+        // Instala o CLI do Vercel
+        core.info("Installing Vercel CLI...");
         await exec.exec("npm install -g vercel");
+        // Instala dependências do projeto
+        core.info("Installing project dependencies...");
         await exec.exec("npm ci");
-        // Configura o usuário e o e-mail do Git
+        // Configurações globais do Git
+        core.info("Setting Git global configurations...");
         await exec.exec("git config --global user.name 'GitHub Actions'");
         await exec.exec("git config --global user.email 'actions@github.com'");
-        await exec.exec(`vercel project add ${vercelProjectId} --token ${vercelToken}`);
-        await exec.exec(`vercel link --token ${vercelToken} --project ${vercelProjectId} --yes`);
-        const vercelCommand = `vercel --token ${vercelToken} --yes --cwd ${vercelPath}`;
+        // Linka o projeto ao Vercel
+        core.info("Linking the project to Vercel...");
+        try {
+            await exec.exec(`vercel link --cwd ${vercelPath} --token ${vercelToken}`);
+        }
+        catch {
+            core.warning("Project link failed. It may not exist.");
+        }
+        // Comando base do Vercel
+        const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --cwd ${vercelPath}`;
         const tag = process.env.GITHUB_REF;
         if (tag) {
             if (tag.match(/^refs\/tags\/v\d+\.\d+\.\d+$/)) {
@@ -25720,6 +25727,7 @@ async function run() {
             }
             else {
                 await exec.exec(vercelCommand);
+                core.warning("Tag does not match production or alpha patterns. Skipping deploy.");
             }
         }
         else {
