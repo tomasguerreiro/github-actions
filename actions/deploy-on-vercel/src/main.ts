@@ -16,7 +16,7 @@ async function run(): Promise<void> {
       core.info("VERCEL_TOKEN is defined");
     }
 
-    const vercelProjectI = process.env.VERCEL_PROJECT_ID;
+    const vercelProjectId = process.env.VERCEL_PROJECT_ID;
     if (!process.env.VERCEL_PROJECT_ID) {
       throw new Error("VERCEL_PROJECT_ID is not defined");
     }
@@ -39,7 +39,11 @@ async function run(): Promise<void> {
     await exec.exec("git config --global user.email 'actions@github.com'");
 
     await exec.exec(
-      `vercel project add ${vercelProjectI} --token ${vercelToken}`
+      `vercel project add ${vercelProjectId} --token ${vercelToken}`
+    );
+
+    await exec.exec(
+      `vercel link --token ${vercelToken} --project ${vercelProjectId} --yes`
     );
 
     const vercelCommand = `vercel --token ${vercelToken} --yes --cwd ${vercelPath}`;

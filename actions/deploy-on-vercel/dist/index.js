@@ -25690,7 +25690,7 @@ async function run() {
         else {
             core.info("VERCEL_TOKEN is defined");
         }
-        const vercelProjectI = process.env.VERCEL_PROJECT_ID;
+        const vercelProjectId = process.env.VERCEL_PROJECT_ID;
         if (!process.env.VERCEL_PROJECT_ID) {
             throw new Error("VERCEL_PROJECT_ID is not defined");
         }
@@ -25705,7 +25705,8 @@ async function run() {
         // Configura o usuário e o e-mail do Git
         await exec.exec("git config --global user.name 'GitHub Actions'");
         await exec.exec("git config --global user.email 'actions@github.com'");
-        await exec.exec(`vercel project add ${vercelProjectI} --token ${vercelToken}`);
+        await exec.exec(`vercel project add ${vercelProjectId} --token ${vercelToken}`);
+        await exec.exec(`vercel link --token ${vercelToken} --project ${vercelProjectId} --yes`);
         const vercelCommand = `vercel --token ${vercelToken} --yes --cwd ${vercelPath}`;
         const tag = process.env.GITHUB_REF;
         if (tag) {
