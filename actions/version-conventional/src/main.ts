@@ -4,7 +4,7 @@ import * as exec from "@actions/exec";
 async function run(): Promise<void> {
   try {
     // Configura o token de acesso do GitHub
-    const githubToken = process.env.GH_PAT;
+    const githubToken = process.env.GITHUB_TOKEN;
     if (!githubToken) {
       throw new Error("GITHUB_TOKEN is not defined");
     } else {
@@ -27,10 +27,6 @@ async function run(): Promise<void> {
       await exec.exec(
         "npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --yes --loglevel verbose"
       );
-
-      // await exec.exec("npm i -g lerna-changelog");
-      // // Gera o changelog
-      // await exec.exec("npx lerna-changelog");
 
       core.info("Versioning all package with graduated version.");
     } else {

@@ -25679,7 +25679,7 @@ const exec = __importStar(__nccwpck_require__(9192));
 async function run() {
     try {
         // Configura o token de acesso do GitHub
-        const githubToken = process.env.GH_PAT;
+        const githubToken = process.env.GITHUB_TOKEN;
         if (!githubToken) {
             throw new Error("GITHUB_TOKEN is not defined");
         }
@@ -25697,9 +25697,6 @@ async function run() {
         }
         else if (process.env.GITHUB_REF === "refs/heads/main") {
             await exec.exec("npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --yes --loglevel verbose");
-            // await exec.exec("npm i -g lerna-changelog");
-            // // Gera o changelog
-            // await exec.exec("npx lerna-changelog");
             core.info("Versioning all package with graduated version.");
         }
         else {
