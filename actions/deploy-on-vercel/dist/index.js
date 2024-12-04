@@ -25709,7 +25709,7 @@ async function run() {
         core.info("Linking the project to Vercel...");
         try {
             core.info("Checking if project exists...");
-            await exec.exec(`vercel project add --name ${vercelProjectId} --framework null --token ${vercelToken}`);
+            await exec.exec(`vercel project add ${vercelProjectId} --token ${vercelToken}`);
             core.info("Project created successfully.");
         }
         catch (error) {

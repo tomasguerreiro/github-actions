@@ -38,7 +38,7 @@ async function run(): Promise<void> {
     try {
       core.info("Checking if project exists...");
       await exec.exec(
-        `vercel project add --name ${vercelProjectId} --framework null --token ${vercelToken}`
+        `vercel project add ${vercelProjectId} --token ${vercelToken}`
       );
       core.info("Project created successfully.");
     } catch (error) {
