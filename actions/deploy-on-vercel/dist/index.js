@@ -25725,7 +25725,7 @@ async function run() {
             await exec.exec(`${vercelCommand} --prod`);
         }
         else {
-            core.warning("Skipping deploy.");
+            throw new Error("Skipping deploy.");
         }
         core.info("Vercel deploy completed.");
     }
