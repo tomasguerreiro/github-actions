@@ -9,11 +9,14 @@ async function run(): Promise<void> {
     const vercelOrgId = process.env.VERCEL_ORG_ID;
     const vercelPath = process.env.VERCEL_PATH || ".";
     const githubRef = process.env.GITHUB_REF;
+    const githubEventPath = process.env.GITHUB_EVENT_PATH;
 
     if (!vercelToken) throw new Error("VERCEL_TOKEN is not defined");
     if (!vercelProjectId) throw new Error("VERCEL_PROJECT_ID is not defined");
     if (!vercelOrgId) throw new Error("VERCEL_ORG_ID is not defined");
     if (!githubRef) throw new Error("GITHUB_REF is not defined");
+
+    core.info(JSON.stringify(githubEventPath, null, 2));
 
     // Instala o CLI do Vercel
     core.info("Installing Vercel CLI...");
