@@ -25713,7 +25713,7 @@ async function run() {
             core.warning("Failed to create the project. It may already exist or there was an issue.");
         }
         // Comando base do Vercel
-        const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --cwd ${vercelPath}`;
+        const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --cwd ${vercelPath} --yes`;
         // Identificação e deploy com base na tag
         core.info("Processing GitHub reference...");
         if (githubRef === "refs/heads/develop") {

@@ -43,7 +43,7 @@ async function run(): Promise<void> {
     }
 
     // Comando base do Vercel
-    const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --cwd ${vercelPath}`;
+    const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --cwd ${vercelPath} --yes`;
 
     // Identificação e deploy com base na tag
     core.info("Processing GitHub reference...");
