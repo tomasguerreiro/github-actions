@@ -55,7 +55,7 @@ async function run(): Promise<void> {
       core.info("Deploying to Vercel production...");
       await exec.exec(`${vercelCommand} --prod`);
     } else {
-      core.warning("Skipping deploy.");
+      throw new Error("Skipping deploy.");
     }
 
     core.info("Vercel deploy completed.");

@@ -17,12 +17,12 @@ async function run(): Promise<void> {
     await exec.exec("git config --global user.name 'GitHub Actions'");
     await exec.exec("git config --global user.email 'actions@github.com'");
 
-    if (githubToken === "refs/heads/develop") {
+    if (githubRef === "refs/heads/develop") {
       await exec.exec(
         "npx lerna version --no-changelog --force-publish --force-git-tag --preid=alpha --conventional-commits --conventional-prerelease --yes --loglevel verbose"
       );
       core.info("Versioning all packages with prerelease alpha.");
-    } else if (githubToken === "refs/heads/main") {
+    } else if (githubRef === "refs/heads/main") {
       await exec.exec(
         "npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --yes --loglevel verbose"
       );
