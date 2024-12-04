@@ -25704,7 +25704,7 @@ async function run() {
         // Configura o usuário e o e-mail do Git
         await exec.exec("git config --global user.name 'GitHub Actions'");
         await exec.exec("git config --global user.email 'actions@github.com'");
-        await exec.exec("vercel project add");
+        await exec.exec(`vercel project add --token ${vercelToken}`);
         const vercelCommand = `vercel --token ${vercelToken} --yes --cwd ${vercelPath}`;
         const tag = process.env.GITHUB_REF;
         if (tag) {
