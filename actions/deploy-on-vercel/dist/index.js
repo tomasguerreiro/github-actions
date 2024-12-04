@@ -25708,10 +25708,12 @@ async function run() {
         // Linka o projeto ao Vercel
         core.info("Linking the project to Vercel...");
         try {
-            await exec.exec(`vercel link --cwd ${vercelPath} --token ${vercelToken}`);
+            core.info("Checking if project exists...");
+            await exec.exec(`vercel project add --name ${vercelProjectId} --framework null --token ${vercelToken}`);
+            core.info("Project created successfully.");
         }
-        catch {
-            core.warning("Project link failed. It may not exist.");
+        catch (error) {
+            core.warning("Failed to create the project. It may already exist or there was an issue.");
         }
         // Comando base do Vercel
         const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --yes --cwd ${vercelPath}`;
