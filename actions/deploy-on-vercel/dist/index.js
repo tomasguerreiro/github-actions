@@ -25718,6 +25718,7 @@ async function run() {
         core.info("Processing GitHub reference...");
         if (githubRef.startsWith("refs/tags/")) {
             const tag = githubRef.replace("refs/tags/", "");
+            core.info(`Tag detected: ${tag}`);
             if (tag.match(/^v\d+\.\d+\.\d+$/)) {
                 await exec.exec(`${vercelCommand} --prod`);
                 core.info("Deploying to Vercel production...");
