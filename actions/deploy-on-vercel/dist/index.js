@@ -25726,11 +25726,11 @@ async function run() {
         const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --cwd ${vercelPath} --yes`;
         // Identificação e deploy com base na tag
         core.info("Processing GitHub reference...");
-        if (githubRef === "refs/heads/develop") {
+        if (branchName === "develop") {
             core.info("Deploying to Vercel preview...");
             await exec.exec(`${vercelCommand}`);
         }
-        else if (githubRef === "refs/heads/main") {
+        else if (branchName === "main") {
             core.info("Deploying to Vercel production...");
             await exec.exec(`${vercelCommand} --prod`);
         }
