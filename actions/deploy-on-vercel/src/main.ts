@@ -15,8 +15,19 @@ async function run(): Promise<void> {
     if (!vercelProjectId) throw new Error("VERCEL_PROJECT_ID is not defined");
     if (!vercelOrgId) throw new Error("VERCEL_ORG_ID is not defined");
     if (!githubRef) throw new Error("GITHUB_REF is not defined");
+    if (!githubEventPath) throw new Error("GITHUB_EVENT_PATH is not defined");
 
-    core.info(JSON.stringify(githubEventPath, null, 2));
+    // Carregar o evento JSON gerado pelo workflow_run
+    const event = require(githubEventPath);
+    const branchName = event.workflow_run?.head_branch;
+
+    if (!branchName) {
+      throw new Error(
+        "Branch name could not be determined from workflow_run event."
+      );
+    }
+
+    core.info(`Detected branch: ${branchName}`);
 
     // Instala o CLI do Vercel
     core.info("Installing Vercel CLI...");
