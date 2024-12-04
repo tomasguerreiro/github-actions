@@ -1,6 +1,6 @@
-name: "Node.js Test Runner"
-description: "Runs tests for a Node.js application."
-author: "Tomas"
+name: "Version Conventional Commits"
+description: "Runs the conventional commits versioning tool"
+author: "Tomas Guerreiro"
 inputs:
   node-version:
     description: "The version of Node.js to use"

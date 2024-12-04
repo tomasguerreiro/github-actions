@@ -3,14 +3,13 @@ import * as exec from "@actions/exec";
 
 async function run(): Promise<void> {
   try {
-    // Configura o token de acesso do GitHub
+    const githubRef = process.env.GITHUB_REF;
     const githubToken = process.env.GITHUB_TOKEN;
-    if (!githubToken) {
-      throw new Error("GITHUB_TOKEN is not defined");
-    } else {
-      core.info("GITHUB_TOKEN is defined");
-      core.setSecret(githubToken);
-    }
+
+    if (!githubRef) throw new Error("GITHUB_REF is not defined");
+    if (!githubToken) throw new Error("GITHUB_TOKEN is not defined");
+
+    core.setSecret(githubToken);
 
     await exec.exec("npm ci");
 
@@ -18,16 +17,15 @@ async function run(): Promise<void> {
     await exec.exec("git config --global user.name 'GitHub Actions'");
     await exec.exec("git config --global user.email 'actions@github.com'");
 
-    if (process.env.GITHUB_REF === "refs/heads/develop") {
+    if (githubToken === "refs/heads/develop") {
       await exec.exec(
         "npx lerna version --no-changelog --force-publish --force-git-tag --preid=alpha --conventional-commits --conventional-prerelease --yes --loglevel verbose"
       );
       core.info("Versioning all packages with prerelease alpha.");
-    } else if (process.env.GITHUB_REF === "refs/heads/main") {
+    } else if (githubToken === "refs/heads/main") {
       await exec.exec(
         "npx lerna version --force-publish --force-git-tag --conventional-commits --conventional-graduate --yes --loglevel verbose"
       );
-
       core.info("Versioning all package with graduated version.");
     } else {
       core.info("Skipping versioning.");
@@ -36,7 +34,7 @@ async function run(): Promise<void> {
     core.info("Lerna versioning completed.");
 
     // equaliza a main com a develop
-    if (process.env.GITHUB_REF === "refs/heads/main") {
+    if (githubToken === "refs/heads/main") {
       core.info("Main branch synchronized with develop.");
 
       await exec.exec("git checkout develop");
