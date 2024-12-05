@@ -25714,6 +25714,8 @@ async function run() {
         }
         // Comando base do Vercel
         const vercelCommand = `vercel --token ${vercelToken} --scope ${vercelOrgId} --cwd ${vercelPath} --yes`;
+        // Endereço customizado para preview
+        const customPreviewUrl = `${vercelProjectId}-stage.vercel.app`;
         // Identificação e deploy com base na tag
         core.info("Processing GitHub reference...");
         if (githubRef.startsWith("refs/tags/")) {
@@ -25724,7 +25726,7 @@ async function run() {
                 core.info("Deploying to Vercel production...");
             }
             else if (tag.match(/^v\d+\.\d+\.\d+-alpha\.\d+$/)) {
-                await exec.exec(`${vercelCommand}`);
+                await exec.exec(`${vercelCommand} --alias ${customPreviewUrl}`);
                 core.info("Deploying to Vercel preview...");
             }
             else {
