@@ -47,15 +47,22 @@ async function run(): Promise<void> {
 
     // Identificação e deploy com base na tag
     core.info("Processing GitHub reference...");
-
-    if (githubRef === "refs/heads/develop") {
-      core.info("Deploying to Vercel preview...");
-      await exec.exec(`${vercelCommand}`);
-    } else if (githubRef === "refs/heads/main") {
-      core.info("Deploying to Vercel production...");
-      await exec.exec(`${vercelCommand} --prod`);
+    if (githubRef.startsWith("refs/tags/")) {
+      const tag = githubRef.replace("refs/tags/", "");
+      core.info(`Tag detected: ${tag}`);
+      if (tag.match(/^v\d+\.\d+\.\d+$/)) {
+        await exec.exec(`${vercelCommand} --prod`);
+        core.info("Deploying to Vercel production...");
+      } else if (tag.match(/^v\d+\.\d+\.\d+-alpha\.\d+$/)) {
+        await exec.exec(`${vercelCommand}`);
+        core.info("Deploying to Vercel preview...");
+      } else {
+        core.warning(
+          "Tag does not match production or alpha patterns. Skipping deploy."
+        );
+      }
     } else {
-      throw new Error("Skipping deploy.");
+      throw new Error("GITHUB_REF is not a tag reference");
     }
 
     core.info("Vercel deploy completed.");
