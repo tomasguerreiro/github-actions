@@ -25702,7 +25702,7 @@ async function run() {
         }
         core.info("Lerna versioning completed.");
         // equaliza a main com a develop
-        if (githubToken === "refs/heads/main") {
+        if (githubRef === "refs/heads/main") {
             core.info("Main branch synchronized with develop.");
             await exec.exec("git checkout develop");
             await exec.exec("git merge main --strategy-option=ours");
