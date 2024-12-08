@@ -25730,7 +25730,7 @@ async function run() {
                 const deploymentUrl = stdout.trim();
                 core.info("Deploying to Vercel preview...");
                 // Definindo o alias usando o comando CLI
-                await exec.exec(`vercel alias set ${deploymentUrl} ${customPreviewUrl}`);
+                await exec.exec(`vercel alias set ${deploymentUrl} ${customPreviewUrl} --token ${vercelToken}`);
                 core.info("Deploying to Vercel preview...");
             }
             else {

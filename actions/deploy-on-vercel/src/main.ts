@@ -63,7 +63,7 @@ async function run(): Promise<void> {
 
         // Definindo o alias usando o comando CLI
         await exec.exec(
-          `vercel alias set --token ${vercelToken} ${deploymentUrl} ${customPreviewUrl}`
+          `vercel alias set ${deploymentUrl} ${customPreviewUrl} --token ${vercelToken}`
         );
         core.info("Deploying to Vercel preview...");
       } else {
